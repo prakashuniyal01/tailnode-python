@@ -49,9 +49,9 @@ def save_post_data_to_database(post_data, db_connection):
     if response.status_code == 200:
         posts = response.json()
         # print(posts)
-        # query = "INSERT INTO Post (id,text,image,likes,tags,owner,publishDate,) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-        # db_cursor.execute(query, values)
-        # db_connection.commit()
+        query = "INSERT INTO Post (id,text,image,likes,tags,owner,publishDate,) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+        db_cursor.execute(query, values)
+        db_connection.commit()
         # Assuming you have a function to save posts to the database
         # Example: save_posts_to_database(posts, db_connection)
         # Implement the function according to your database schema
