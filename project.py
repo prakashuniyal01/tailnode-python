@@ -45,26 +45,38 @@ def save_post_data_to_database(post_data, db_connection):
     user_id = post_data["id"]
     url = f"https://dummyapi.io/data/v1/user/{user_id}/post"
     headers = {'app-id': APP_ID}  # Replace 'YOUR_APP_ID' with your actual app ID
-    response = requests.get(url, headers=headers)
-    if response.status_code == 200:
-        posts = response.json()
+    # response = requests.get(url, headers=headers)
+    # if response.status_code == 200:
+    #     posts = response.json()j
         # print(posts)
         query = "INSERT INTO Post (id,text,image,likes,tags,owner,publishDate,) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+        for data in user_data:        
+        values = ( str(data['id']), data['title'], data['firstName'], data['lastName'], data['picture'])
         db_cursor.execute(query, values)
-        db_connection.commit()
+        save_post_data_to_database(data,db_connection)
+    db_connection.commit()
+
+
+
+# def save_post_data_to_database(user_data, db_connection, APP_ID):
+#     db_cursor = db_connection.cursor()
+#     for data in user_data:
+#         user_id = data["id"]
+#         url = f"https://dummyapi.io/data/v1/user/{user_id}/post"
+#         headers = {'app-id': APP_ID}
+#         response = requests.get(url, headers=headers)
+#         if response.status_code == 200:
+#             posts = response.json()['data']
+#             for post in posts:
+#                 query = "INSERT INTO Post (id, text, image, likes, tags, owner, publishDate) VALUES (?, ?, ?, ?, ?, ?, ?)"
+#                 values = (post['id'], post['text'], post['image'], post['likes'], post['tags'], post['owner'], post['publishDate'])
+#                 db_cursor.execute(query, values)
+#     db_connection.commit()
+
         # Assuming you have a function to save posts to the database
         # Example: save_posts_to_database(posts, db_connection)
         # Implement the function according to your database schema
 
-
-
-
-
-
-
-    else:
-        return None
-    db_connection.commit()
 
 # Example usage
 if __name__ == "__main__":
